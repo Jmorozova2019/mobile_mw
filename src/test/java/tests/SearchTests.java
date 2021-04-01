@@ -10,7 +10,7 @@ import org.junit.Test;
 public class SearchTests extends CoreTestCase
 {
     @Test
-    public void testSearch() {
+    public void testSearch() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
@@ -19,7 +19,7 @@ public class SearchTests extends CoreTestCase
     }
 
     @Test
-    public void testCancelSearch() {
+    public void testCancelSearch() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
@@ -29,7 +29,7 @@ public class SearchTests extends CoreTestCase
     }
 
     @Test
-    public void testAmountOfNotEmptySearch() {
+    public void testAmountOfNotEmptySearch() throws InterruptedException {
         String search_line = "Linkin Park Diskography";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -45,7 +45,7 @@ public class SearchTests extends CoreTestCase
     }
 
     @Test
-    public void testAmountOfEmptySearch() {
+    public void testAmountOfEmptySearch() throws InterruptedException {
         String search_line = "Lkjhkjkjhghkjgkjhgjkgghj";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);

@@ -66,9 +66,22 @@ abstract public class MyListPageObject extends MainPageObject{
         waitForArticleToDisappearByTitle(article_title);
     }
 
+
+    public void removeArticleFromWatchlistByTitle(String article_title) throws InterruptedException {
+        waitForArticleToAppearByTitle(article_title);
+        String article_title_rpl = getRemoveButtonByTitle(article_title);
+
+        if (Platform.getInstance().isMW()) {
+            click(article_title_rpl,"Cannot click button to remove article from saved", 10);
+            driver.navigate().refresh();
+        }
+        waitForArticleToDisappearByTitle(article_title);
+    }
+
+
     public void waitForArticleToDisappearByTitle(String article_title)
     {
-        String article_title_rpl = getFolderByName(article_title);
+        String article_title_rpl = getSavedArticleByTitle(article_title);
 
         waitForElementNotPresent(article_title_rpl,
                 "Saved article still present with title " + article_title,15);
@@ -76,7 +89,7 @@ abstract public class MyListPageObject extends MainPageObject{
 
     public void waitForArticleToAppearByTitle(String article_title)
     {
-        waitForElementPresent(getFolderByName(article_title),
+        waitForElementPresent(getSavedArticleByTitle(article_title),
             "Cannot find saved article by title " + article_title, 15
         );
     }

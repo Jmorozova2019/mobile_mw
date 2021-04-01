@@ -44,7 +44,7 @@ public class MainPageObject {
         } else if (by_type.equals("id")) {
             return By.id(locator);
         } else if (by_type.equals("css")) {
-            return By.id(locator);
+            return By.cssSelector(locator);
         } else {
             throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locator_with_type);
         }
@@ -84,9 +84,7 @@ public class MainPageObject {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSecond);
         wait.withMessage(error_message + "\n");
 
-        return wait.until(
-                ExpectedConditions.presenceOfElementLocated(by)
-        );
+        return wait.until( ExpectedConditions.presenceOfElementLocated(by));
     }
 
     //*****************************waits
@@ -128,7 +126,6 @@ public class MainPageObject {
     {
         WebElement element = waitForElementPresent(locator_with_typer, error_message, timeoutInSecond);
         element.sendKeys(value);
-
         return element;
     }
 

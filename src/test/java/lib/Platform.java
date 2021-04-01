@@ -4,10 +4,12 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,7 @@ public class Platform {
         } else if(isIOS()){
             return new IOSDriver(URL, getiOSCapabilities());
         } else if(isMW()){
-            return new ChromeDriver(getMWChromeOptions());
+            return new ChromeDriver(getMWChromeOptions());//getMWChromeService(),
         } else {
             throw new Exception(("Cannot detect type of the Driver/ Platform value: " + getPlatformVar()));
         }
@@ -76,6 +78,13 @@ public class Platform {
         chromeOptions.addArguments("window-size=340,640");
 
         return chromeOptions;
+    }
+
+    private ChromeDriverService getMWChromeService() {
+        int portForChrome = 43450;
+        ChromeDriverService service =
+                new ChromeDriverService.Builder().usingDriverExecutable(new File("C:/Users/Zhanna/IdeaProjects/mobile_mw/chromedriver.exe")).usingPort(portForChrome).build();
+        return service;
     }
 
     private DesiredCapabilities getAndroidCapabilities()

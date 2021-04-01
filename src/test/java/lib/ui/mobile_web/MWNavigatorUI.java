@@ -5,8 +5,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class MWNavigatorUI  extends NavigationUI {
     static {
-        MY_LIST_LINK = "css:a[data-event-name='watchlist']";
-        OPEN_NAVIGATION = "css:#mw-mf-main-menu-button";
+        MY_LIST_LINK = "css:a[data-event-name='menu.unStar']";
+        OPEN_MAIN_MENU = "id:mw-mf-main-menu-button";
     }
 
     public MWNavigatorUI(RemoteWebDriver driver) {

@@ -12,7 +12,7 @@ import org.openqa.selenium.By;
 public class AtricleTests extends CoreTestCase
 {
     @Test
-    public void testCompareArticleTitle() {
+    public void testCompareArticleTitle() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
@@ -31,7 +31,7 @@ public class AtricleTests extends CoreTestCase
     }
 
     @Test
-    public void testSwipeArticle() {
+    public void testSwipeArticle() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -44,8 +44,7 @@ public class AtricleTests extends CoreTestCase
     }
 
     @Test
-    public void testAssertElementPresent_Ex6_after_refactoring()
-    {
+    public void testAssertElementPresent_Ex6_after_refactoring() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();

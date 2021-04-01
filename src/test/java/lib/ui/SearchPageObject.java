@@ -33,11 +33,9 @@ public abstract class SearchPageObject extends MainPageObject{
     /* Template */
 
     //Search
-    public void initSearchInput()
-    {
-        click(SEARCH_INIT_ELEMENT, "Cannot find and click search init element");
-        clear(SEARCH_INIT_ELEMENT, "Cannot find and click search init element");
-        waitForElementPresent(SEARCH_INPUT, "Cannot find search input after clicking search init element");
+    public void initSearchInput() {
+        click(SEARCH_INIT_ELEMENT, "Cannot find and click search init element " + SEARCH_INIT_ELEMENT, 10);
+        waitForElementPresent(SEARCH_INPUT, "Cannot find search input after clicking search init element", 1);
     }
 
     public void typeSearchLine(String search_line)

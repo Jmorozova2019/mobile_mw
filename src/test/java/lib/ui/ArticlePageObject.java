@@ -81,12 +81,16 @@ abstract public class ArticlePageObject extends MainPageObject {
     public void addArticleToMySaved()
     {
         if (Platform.getInstance().isMW()) {
-            removeArticleFromSavedIfAdded();
+            removeArticleFromSavedIfAdded();//OPTION_REMOVE_FROM_MY_LIST_BUTTON
+            //
+            click(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
+        } else {
+            click(SAVE_BUTTON, "Cannot find button to open article options");
         }
-        //click(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
-        click(SAVE_BUTTON, "Cannot find button to open article options");
-        waitForElementPresent(NOTIFICATION_ADDED_TO_LIST,"Cannot find notification of saved article");
-        waitForElementNotPresent(NOTIFICATION_ADDED_TO_LIST,"No close notification of saved article");
+        waitForElementPresent(NOTIFICATION_ADDED_TO_LIST,
+                "Cannot find notification of saved article", 10);
+        waitForElementNotPresent(NOTIFICATION_ADDED_TO_LIST,"" +
+                "No close notification of saved article", 10);
     }
 
     public void closeArticle()
@@ -114,11 +118,17 @@ abstract public class ArticlePageObject extends MainPageObject {
         assertElementsPresentNowByXpath(TITLE, error_message);
     }
 
+    //при открытой статье кликнуть звездочку, если она синяя (статья уже добавлена)
     public void removeArticleFromSavedIfAdded() {
         if (isElementPresent(OPTION_REMOVE_FROM_MY_LIST_BUTTON)) {
             click(OPTION_REMOVE_FROM_MY_LIST_BUTTON,
                 "Cannot click button to remove an article from saved",
                 1);
+
+            //без следующих двух действий не работает - в добавлении статьи смотрит на нотификацию удаления
+            waitForElementPresent(NOTIFICATION_ADDED_TO_LIST,"Cannot find notification of remove article");
+            waitForElementNotPresent(NOTIFICATION_ADDED_TO_LIST,"No close notification of remove article", 5);
+
             waitForElementPresent(OPTIONS_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find button to add an article to saved list after removing it from this list befor",
                 1);

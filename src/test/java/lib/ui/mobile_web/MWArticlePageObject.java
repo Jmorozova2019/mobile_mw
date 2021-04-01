@@ -7,8 +7,10 @@ public class MWArticlePageObject extends ArticlePageObject {
     static {
         TITLE = "css:#content h1";
         FOOTER_ELEMENT = "css:footer";
-        OPTION_REMOVE_FROM_MY_LIST_BUTTON = "css:#page-actions li#ca-watch.mw-ui-icon-mf-watched watched button";
-        OPTIONS_ADD_TO_MY_LIST_BUTTON = "css:#page-actions li#ca-watch.mw-ui-icon-mf-watched button";
+        SAVE_BUTTON = "id:ca-watch";
+        NOTIFICATION_ADDED_TO_LIST = "id:mw-notification-area";
+        OPTION_REMOVE_FROM_MY_LIST_BUTTON = "xpath://a[@id='ca-watch' and (contains(@title,'Remove') or @title='Unwatch')]";
+        OPTIONS_ADD_TO_MY_LIST_BUTTON     = "xpath://a[@id='ca-watch' and (contains(@title, 'Add') or @title='Watch')]";
     }
 
     public MWArticlePageObject(RemoteWebDriver driver) {
