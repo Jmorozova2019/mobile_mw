@@ -1,9 +1,12 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.io.IOException;
 
 abstract public class ArticlePageObject extends MainPageObject {
     protected static String
@@ -27,14 +30,16 @@ abstract public class ArticlePageObject extends MainPageObject {
         super(driver);
     }
 
+    @Step("Wait for title on the article page")
     public WebElement waitForTitleElement()
     {
         return waitForElementPresent(TITLE, "Cannot find article title in page", 15);
     }
 
-    public String getArticleTitle()
-    {
+    @Step("Get article page")
+    public String getArticleTitle() throws IOException {
         WebElement titleElement = waitForTitleElement();
+        screenshot(takeScreenshot("articleTitle"));
         if(Platform.getInstance().isAndroid()) {
             return titleElement.getAttribute("text");
         } else if (Platform.getInstance().isIOS()){
@@ -44,6 +49,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Swipe to footer")
     public  void swipeToFooter()
     {
         if (Platform.getInstance().isAndroid()){
@@ -55,6 +61,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding article to my list")
     public void addArticleToMyList(String name_of_folder)
     {
         click(OPTIONS_BUTTON, "Cannot find button to open article options");
@@ -78,6 +85,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }*/
 
+    @Step("Adding article to my saved")
     public void addArticleToMySaved()
     {
         if (Platform.getInstance().isMW()) {
@@ -93,6 +101,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 "No close notification of saved article", 10);
     }
 
+    @Step("Closing article")
     public void closeArticle()
     {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
@@ -102,22 +111,25 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Closing search articles list")
     public void closeSearchArticleList()
     {
         click(CLOSE_SEARCH_ARTICLE_LIST,"Cannot close article list, cannot find back button");
     }
 
-    public void isArticleTitleEqualsExpected(String expected_title)
-    {
+    @Step("Checking article title is equals expected")
+    public void isArticleTitleEqualsExpected(String expected_title) throws IOException {
         String article_title_fact = getArticleTitle();
         Assert.assertTrue(article_title_fact.equals(expected_title));
     }
 
+    @Step("Checking elements present now")
     public void assertElementsPresentNowByXpath(String error_message)
     {
         assertElementsPresentNowByXpath(TITLE, error_message);
     }
 
+    @Step("Remove article from saved if added")
     //при открытой статье кликнуть звездочку, если она синяя (статья уже добавлена)
     public void removeArticleFromSavedIfAdded() {
         if (isElementPresent(OPTION_REMOVE_FROM_MY_LIST_BUTTON)) {
@@ -134,5 +146,4 @@ abstract public class ArticlePageObject extends MainPageObject {
                 1);
         }
     }
-
 }

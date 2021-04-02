@@ -5,7 +5,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class MWArticlePageObject extends ArticlePageObject {
     static {
-        TITLE = "css:#content h1";
+        TITLE = "xpath://*[@class='page-heading']/h1";
         FOOTER_ELEMENT = "css:footer";
         SAVE_BUTTON = "id:ca-watch";
         NOTIFICATION_ADDED_TO_LIST = "id:mw-notification-area";

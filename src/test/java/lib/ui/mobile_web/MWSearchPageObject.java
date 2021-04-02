@@ -11,7 +11,8 @@ public class MWSearchPageObject extends SearchPageObject {
         SEARCH_CANCEL_BUTTON = "css:button.cancel";
         SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://div[contains(@class,'wikidata-description') and contains(text(),'{SUBSTRING}')]";
         SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL = "css:ul.page-list>li.page-summary";
-        SEARCH_RESULT_ELEMENT = "css:p.without-results";
+        SEARCH_RESULT_ELEMENT = "xpath://div[contains(@class, 'results-list-container')]//li";
+        SEARCH_NO_RESULT_ELEMENT = "xpath://p[text()='No page with this title.']";
     }
 
     public MWSearchPageObject(RemoteWebDriver driver) {

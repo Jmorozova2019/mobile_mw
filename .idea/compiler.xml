@@ -6,9 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mobile_mw" />
         <module name="JavaAppium" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mobile_mw" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

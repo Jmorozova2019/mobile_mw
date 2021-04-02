@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -43,6 +44,7 @@ abstract public class MyListPageObject extends MainPageObject{
         click(SAVED_BLOCK, "Cannot find folder", 15);
     }
 
+    @Step("Swipe by article to delete")
     public void swipeByArticleToDelete(String article_title) throws InterruptedException {
         waitForArticleToAppearByTitle(article_title);
         Thread.sleep(1000);
@@ -66,7 +68,7 @@ abstract public class MyListPageObject extends MainPageObject{
         waitForArticleToDisappearByTitle(article_title);
     }
 
-
+    @Step("Remove article from watchlist by title")
     public void removeArticleFromWatchlistByTitle(String article_title) throws InterruptedException {
         waitForArticleToAppearByTitle(article_title);
         String article_title_rpl = getRemoveButtonByTitle(article_title);

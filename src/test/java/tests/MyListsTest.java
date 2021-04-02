@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
@@ -12,8 +14,10 @@ import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import lib.ui.mobile_web.AutorizationPageObject;
+import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.util.concurrent.TimeoutException;
 
@@ -28,7 +32,12 @@ public class MyListsTest extends CoreTestCase {
             password = "WikiJem2021#";
 
    @Test
-    public void testSaveFirstArticleToMyList() throws InterruptedException {
+   @Features(value = {@Feature(value="Search"), @Feature(value="Article"), @Feature(value="SavedList")})
+   @DisplayName("Save first article to my list")
+   @Description("Find article by search text Java, add to saved list and remove atricle from saved list")
+   @Step("Starting test testSaveFirstArticleToMyList")
+   @Severity(value = SeverityLevel.NORMAL)
+   public void testSaveFirstArticleToMyList() throws InterruptedException, IOException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
@@ -63,7 +72,8 @@ public class MyListsTest extends CoreTestCase {
             auth.submitForm();
 
             articlePageObject.waitForTitleElement();
-            assertEquals("We are not on the same page after login", article_title, articlePageObject.getArticleTitle());
+            articlePageObject.takeScreenshot("ArticlePage");
+            Assert.assertEquals("We are not on the same page after login", article_title, articlePageObject.getArticleTitle());
 
             articlePageObject.addArticleToMySaved();
 
@@ -82,7 +92,12 @@ public class MyListsTest extends CoreTestCase {
     }
 
     @Test
-    public void testSaveTwoArticleAndDeleteOne_Ex17() throws InterruptedException {
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article"), @Feature(value="SavedList")})
+    @DisplayName("Save two article to my list and remove first article")
+    @Description("Find two article by search text Java, add to saved list and remove first atricle from saved list")
+    @Step("Starting test testSaveTwoArticleAndDeleteOne")
+    @Severity(value = SeverityLevel.NORMAL)
+    public void testSaveTwoArticleAndDeleteOne_Ex17() throws InterruptedException, IOException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
@@ -128,7 +143,7 @@ public class MyListsTest extends CoreTestCase {
             auth.submitForm();
 
             articlePageObject.waitForTitleElement();
-            assertEquals("We are not on the same page after login", first_article_title, articlePageObject.getArticleTitle());
+            Assert.assertEquals("We are not on the same page after login", first_article_title, articlePageObject.getArticleTitle());
             articlePageObject.addArticleToMySaved();
 
             //найти и добавить вторую статью
@@ -157,7 +172,7 @@ public class MyListsTest extends CoreTestCase {
 
             //проверить, что сохранилась именно нужная статья
             articlePageObject.waitForTitleElement();
-            assertEquals("We are not on the same page after login",
+            Assert.assertEquals("We are not on the same page after login",
                     second_article_title, articlePageObject.getArticleTitle());
         }
     }
