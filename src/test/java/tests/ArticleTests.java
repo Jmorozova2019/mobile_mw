@@ -63,7 +63,7 @@ public class ArticleTests extends CoreTestCase
     @Features(value = {@Feature(value="Search"), @Feature(value="Article")})
     @DisplayName("Check is element present")
     @Severity(value = SeverityLevel.MINOR)
-    public void testAssertElementPresent() throws InterruptedException {
+    public void testAssertElementPresent() throws InterruptedException, IOException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
@@ -71,6 +71,6 @@ public class ArticleTests extends CoreTestCase
         searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-        articlePageObject.assertElementsPresentNowByXpath("Cannot title");
+        articlePageObject.isArticleTitleEqualsExpected("Java (programming language)");
     }
 }

@@ -1,7 +1,12 @@
 package lib.ui;
 
 import io.qameta.allure.Step;
+import lib.Platform;
+import org.junit.Assert;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.List;
 
 
 public abstract class SearchPageObject extends MainPageObject{
@@ -13,6 +18,8 @@ public abstract class SearchPageObject extends MainPageObject{
         SEARCH_RESULT_BY_SUBSTRING_TPL,
         SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL,
         SEARCH_NO_RESULT_ELEMENT,
+        SEARCH_RESULT_VIEW,
+        SEARCH_RESULT_ARTICLE_TITLE,
         SEARCH_RESULT_ELEMENT;
 
     public SearchPageObject(RemoteWebDriver driver)
@@ -86,11 +93,21 @@ public abstract class SearchPageObject extends MainPageObject{
     }
 
     @Step("Making sure there are no results for the search")
-    public void assertThereIsNotResultOfSearch()
-    {
-        assertElementsPresent(SEARCH_NO_RESULT_ELEMENT);
-        assertElementNotPresent(SEARCH_RESULT_ELEMENT,"We supported not to find any result");
+    public void assertThereIsNotResultOfSearch() {
+        if (Platform.getInstance().isMW()) {
+            assertElementNotPresent(SEARCH_RESULT_VIEW, "We supported not to find any result");
+        } else {
+            assertElementsPresent(SEARCH_NO_RESULT_ELEMENT);
+            assertElementNotPresent(SEARCH_RESULT_ELEMENT, "We supported not to find any result");
+        }
     }
+
+    @Step("Making sure there are the search canceled")
+    public void assertThereIsSearchCanceled()
+    {
+        assertElementNotPresent(SEARCH_RESULT_VIEW,"We supported not to find any result");
+    }
+
 
     @Step("Waiting for empty result label")
     public void waitForElementByTitleAndDescription(String title, String description)
@@ -99,5 +116,15 @@ public abstract class SearchPageObject extends MainPageObject{
 
         waitForElementPresent(locator,
             "Cannot find anything article by title " + title + "and description " + description );
+    }
+
+    public void assertThereIsAllTitleContainsExpectedText(String expectedTextTitle) {
+        String error_text_in_search_result = "As a result, there is no search word";
+        List<WebElement> resTitles = driver.findElementsByXPath(SEARCH_RESULT_ARTICLE_TITLE);
+
+        for(WebElement elementTitle: resTitles)
+        {
+            Assert.assertTrue(error_text_in_search_result, elementTitle.getText().contains(expectedTextTitle));
+        }
     }
 }

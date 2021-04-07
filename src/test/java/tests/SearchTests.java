@@ -12,6 +12,9 @@ import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 
 public class SearchTests extends CoreTestCase
@@ -83,33 +86,29 @@ public class SearchTests extends CoreTestCase
         searchPageObject.typeSearchLine("Java");
         int amount_of_search_result = searchPageObject.getAmountOfFoundArticles();
 
-        Assert.assertTrue("We found two few results!", amount_of_search_result > 0);
-        if (!Platform.getInstance().isMW()) {
-            searchPageObject.clickCancelSearch();
-            searchPageObject.assertThereIsNotResultOfSearch();
-        }
+        Assert.assertTrue("We found two few results!", amount_of_search_result > 2);
+        searchPageObject.clickCancelSearch();
+        searchPageObject.assertThereIsNotResultOfSearch();
+        searchPageObject.assertThereIsNotResultOfSearch();
     }
 
     @Test
     @Features(value = {@Feature(value="Search")})
     @Severity(value = SeverityLevel.CRITICAL)
     @DisplayName("Search article by title and description")
-    public void testSearchByTitleAndDescription_Ex4() {
-
+    public void testSearchByTitleAndDescription_Ex18() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
 
         int amount_of_search_result = searchPageObject.getAmountOfFoundArticles();
         Assert.assertTrue("We found two few results!", amount_of_search_result > 2);
-
-        searchPageObject.waitForElementByTitleAndDescription("Java",
-                "Island of Indonesia");
-
-        searchPageObject.waitForElementByTitleAndDescription("JavaScript",
-                "Programming language");
-
-        searchPageObject.waitForElementByTitleAndDescription("Java (programming language)",
-                "Object-oriented programming language");
+        if(Platform.getInstance().isMW()) {
+            searchPageObject.assertThereIsAllTitleContainsExpectedText("Java");
+        } else {
+            searchPageObject.waitForElementByTitleAndDescription("Java", "Island of Indonesia");
+            searchPageObject.waitForElementByTitleAndDescription("JavaScript", "Programming language");
+            searchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+        }
     }
 }
